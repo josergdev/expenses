@@ -1,9 +1,7 @@
 package dev.joserg.domain;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BalanceCalculator {
     private final ExpensesRepository expensesRepository;
@@ -18,6 +16,8 @@ public class BalanceCalculator {
         var expenses = expensesRepository.all();
         var friends = friendsRepository.all();
 
+        var notes = accountingNotesFromExpenses(expenses, friends);
+
         var balanceMap = new HashMap<Friend, Amount>();
 
         friends.forEach(friend -> balanceMap.put(friend, new Amount(0)));
@@ -28,10 +28,6 @@ public class BalanceCalculator {
                     balanceMap.replace(expense.payer(), sumAmounts(payerAmount, expense.amount()));
                 }
         );
-
-        var notes = expenses.stream()
-                .flatMap(expense -> accountingNotesFromExpense(expense, friends))
-                .collect(Collectors.toList());
 
         notes.forEach(note -> {
             var debtorAmount = balanceMap.getOrDefault(note.debtor(), new Amount(0));
@@ -49,10 +45,11 @@ public class BalanceCalculator {
         return new Balance(balanceItems);
     }
 
-    private Stream<AccountingNote> accountingNotesFromExpense(Expense expense, Collection<Friend> friends) {
-        return friends.stream()
-                .filter(friend -> !friend.equals(expense.payer()))
-                .map(debtor -> new AccountingNote(debtor, expense.payer(), new Amount(expense.amount().value() / friends.size())));
+    private List<AccountingNote> accountingNotesFromExpenses(List<Expense> expenses, Collection<Friend> friends) {
+        return expenses.stream()
+                .flatMap(expense -> friends.stream()
+                                .map(debtor -> new AccountingNote(debtor, expense.payer(), new Amount(expense.amount().value() / friends.size()))))
+                .collect(Collectors.toList());
     }
 
     private Amount sumAmounts(Amount a, Amount b) {
