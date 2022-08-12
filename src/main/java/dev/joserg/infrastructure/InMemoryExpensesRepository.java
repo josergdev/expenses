@@ -11,11 +11,11 @@ public class InMemoryExpensesRepository implements ExpensesRepository {
 
     private final List<Expense> expenses;
 
-    InMemoryExpensesRepository() {
+    public InMemoryExpensesRepository() {
         expenses = new ArrayList<>();
     }
 
-    InMemoryExpensesRepository(List<Expense> expenses) {
+    public InMemoryExpensesRepository(List<Expense> expenses) {
         this.expenses = expenses;
     }
 

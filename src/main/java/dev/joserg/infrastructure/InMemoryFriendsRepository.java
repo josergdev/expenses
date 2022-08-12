@@ -11,11 +11,11 @@ public class InMemoryFriendsRepository implements FriendsRepository {
 
     private Collection<Friend> friends;
 
-    InMemoryFriendsRepository() {
+    public InMemoryFriendsRepository() {
         friends = new ArrayList<>();
     }
 
-    InMemoryFriendsRepository(Collection<Friend> friends) {
+    public InMemoryFriendsRepository(Collection<Friend> friends) {
         this.friends = friends;
     }
 
