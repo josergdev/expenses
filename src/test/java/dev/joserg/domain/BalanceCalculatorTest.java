@@ -101,7 +101,6 @@ class BalanceCalculatorTest {
                                         new Description("Compra"),
                                         LocalDateTime.of(2022, 8, 12, 19, 0)
                                 )
-
                         )
                 ),
                 new InMemoryFriendsRepository(
@@ -114,6 +113,35 @@ class BalanceCalculatorTest {
                 new BalanceItem(alfonso, new Amount(2_255)),
                 new BalanceItem(jose, new Amount(-4_085)),
                 new BalanceItem(raul, new Amount(-4_085))
+        ));
+
+        assertEquals(expectedBalance, calculator.balance());
+    }
+
+    @Test
+    void itShouldCalculateBalanceAndPayerShouldPayTheRemainder() {
+        var friendA = new Friend(UUID.randomUUID(), "A");
+        var friendB = new Friend(UUID.randomUUID(), "B");
+
+        var calculator = new BalanceCalculator(
+                new InMemoryExpensesRepository(
+                        List.of(
+                                new Expense(
+                                        friendA,
+                                        new Amount(1),
+                                        new Description("d"),
+                                        LocalDateTime.of(2022, 8, 12, 17, 0)
+                                )
+                        )
+                ),
+                new InMemoryFriendsRepository(
+                        List.of(friendA, friendB)
+                )
+        );
+
+        var expectedBalance = new Balance(List.of(
+                new BalanceItem(friendA, new Amount(1)),
+                new BalanceItem(friendB, new Amount(0))
         ));
 
         assertEquals(expectedBalance, calculator.balance());
