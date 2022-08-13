@@ -1,6 +1,17 @@
 micronaut:
   application:
     name: expenses
+datasources:
+  default:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    dialect: MYSQL
+    url: jdbc:mysql://localhost:3306/expenses
+    username: root
+    password: "password"
+flyway:
+  datasources:
+    default:
+      enabled: true
 netty:
   default:
     allocator:
