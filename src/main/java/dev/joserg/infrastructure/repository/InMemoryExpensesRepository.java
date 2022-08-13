@@ -2,11 +2,13 @@ package dev.joserg.infrastructure.repository;
 
 import dev.joserg.domain.expense.Expense;
 import dev.joserg.domain.expense.ExpensesRepository;
+import jakarta.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Singleton
 public class InMemoryExpensesRepository implements ExpensesRepository {
 
     private final List<Expense> expenses;
@@ -25,7 +27,8 @@ public class InMemoryExpensesRepository implements ExpensesRepository {
     }
 
     @Override
-    public void add(Expense expense) {
+    public Expense add(Expense expense) {
         expenses.add(expense);
+        return expense;
     }
 }

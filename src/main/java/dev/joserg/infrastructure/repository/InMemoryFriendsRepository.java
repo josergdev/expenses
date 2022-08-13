@@ -4,9 +4,7 @@ import dev.joserg.domain.friend.Friend;
 import dev.joserg.domain.friend.FriendsRepository;
 import jakarta.inject.Singleton;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 @Singleton
 public class InMemoryFriendsRepository implements FriendsRepository {
@@ -30,5 +28,12 @@ public class InMemoryFriendsRepository implements FriendsRepository {
     public Friend add(Friend friend) {
         friends.add(friend);
         return friend;
+    }
+
+    @Override
+    public Optional<Friend> find(UUID friendId) {
+        return friends.stream()
+                .filter(friend -> friendId.equals(friend.id()))
+                .findFirst();
     }
 }
