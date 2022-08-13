@@ -25,14 +25,14 @@ public class BalanceCalculator {
         notes.forEach(
                 note -> {
                     var creditorAmount = balanceMap.getOrDefault(note.creditor(), new Amount(0));
-                    balanceMap.replace(note.creditor(), sumAmounts(creditorAmount, note.amount()));
+                    balanceMap.replace(note.creditor(), creditorAmount.sum(note.amount()));
                 }
         );
 
         notes.forEach(
                 note -> {
                     var debtorAmount = balanceMap.getOrDefault(note.debtor(), new Amount(0));
-                    balanceMap.replace(note.debtor(), diffAmounts(debtorAmount, note.amount()));
+                    balanceMap.replace(note.debtor(), debtorAmount.diff(note.amount()));
                 }
         );
 
@@ -50,19 +50,8 @@ public class BalanceCalculator {
     private List<AccountingNote> accountingNotesFromExpenses(List<Expense> expenses, Collection<Friend> friends) {
         return expenses.stream()
                 .flatMap(expense -> friends.stream()
-                        .map(debtor -> new AccountingNote(debtor, expense.payer(), divideAmount(expense.amount(), friends.size())))
+                        .map(debtor -> new AccountingNote(debtor, expense.payer(), expense.amount().divide(friends.size())))
                 ).collect(Collectors.toList());
     }
 
-    private Amount divideAmount(Amount dividend, Integer divisor) {
-        return new Amount(dividend.value() / divisor);
-    }
-
-    private Amount sumAmounts(Amount a, Amount b) {
-        return new Amount(a.value() + b.value());
-    }
-
-    private Amount diffAmounts(Amount a, Amount b) {
-        return new Amount(a.value() - b.value());
-    }
 }
