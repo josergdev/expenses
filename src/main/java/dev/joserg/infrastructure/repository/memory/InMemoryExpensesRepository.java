@@ -1,4 +1,4 @@
-package dev.joserg.infrastructure.repository;
+package dev.joserg.infrastructure.repository.memory;
 
 import dev.joserg.domain.expense.Expense;
 import dev.joserg.domain.expense.ExpensesRepository;

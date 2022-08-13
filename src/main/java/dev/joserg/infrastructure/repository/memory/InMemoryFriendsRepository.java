@@ -1,4 +1,4 @@
-package dev.joserg.infrastructure.repository;
+package dev.joserg.infrastructure.repository.memory;
 
 import dev.joserg.domain.friend.Friend;
 import dev.joserg.domain.friend.FriendsRepository;
