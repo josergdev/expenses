@@ -53,6 +53,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>io.micronaut.sql</groupId>
+            <artifactId>micronaut-jooq</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-validation</artifactId>
             <scope>compile</scope>
