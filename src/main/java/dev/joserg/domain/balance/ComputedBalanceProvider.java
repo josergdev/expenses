@@ -12,11 +12,11 @@ import dev.joserg.domain.accounting.Relation;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class BalanceCalculator {
+public class ComputedBalanceProvider implements BalanceProvider {
     private final ExpensesRepository expensesRepository;
     private final FriendsRepository friendsRepository;
 
-    public BalanceCalculator(ExpensesRepository expensesRepository, FriendsRepository friendsRepository) {
+    public ComputedBalanceProvider(ExpensesRepository expensesRepository, FriendsRepository friendsRepository) {
         this.expensesRepository = expensesRepository;
         this.friendsRepository = friendsRepository;
     }
@@ -27,10 +27,24 @@ public class BalanceCalculator {
 
         var accountingBook = accountingBookFromExpensesAndFriends(expenses, friends);
 
-        return balanceFromAccountingBookAndFriends(friends, accountingBook);
+        return balanceFromAccountingBookAndFriends(accountingBook, friends);
     }
 
-    private Balance balanceFromAccountingBookAndFriends(Collection<Friend> friends, Book accountingBook) {
+    private Book accountingBookFromExpensesAndFriends(List<Expense> expenses, Collection<Friend> friends) {
+        return new Book(
+                expenses.stream()
+                        .flatMap(expense -> friends.stream()
+                                .map(debtor ->
+                                        new Note(
+                                                new Relation(debtor, expense.payer()),
+                                                expense.amount().divide(friends.size())
+                                        )
+                                )
+                        ).collect(Collectors.toList())
+        );
+    }
+
+    private Balance balanceFromAccountingBookAndFriends(Book accountingBook, Collection<Friend> friends) {
         var balanceMap = new HashMap<Friend, Amount>();
 
         friends.forEach(friend -> balanceMap.put(friend, new Amount()));
@@ -50,19 +64,5 @@ public class BalanceCalculator {
                 ).collect(Collectors.toList());
 
         return new Balance(balanceItems);
-    }
-
-    private Book accountingBookFromExpensesAndFriends(List<Expense> expenses, Collection<Friend> friends) {
-        return new Book(
-                expenses.stream()
-                        .flatMap(expense -> friends.stream()
-                                .map(debtor ->
-                                        new Note(
-                                                new Relation(debtor, expense.payer()),
-                                                expense.amount().divide(friends.size())
-                                        )
-                                )
-                        ).collect(Collectors.toList())
-        );
     }
 }

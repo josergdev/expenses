@@ -2,7 +2,7 @@ package dev.joserg.domain;
 
 import dev.joserg.domain.accounting.Amount;
 import dev.joserg.domain.balance.Balance;
-import dev.joserg.domain.balance.BalanceCalculator;
+import dev.joserg.domain.balance.ComputedBalanceProvider;
 import dev.joserg.domain.balance.BalanceItem;
 import dev.joserg.domain.expense.Description;
 import dev.joserg.domain.expense.Expense;
@@ -21,7 +21,7 @@ class BalanceCalculatorTest {
 
     @Test
     void itShouldBeEmptyBalanceIfZeroFriends() {
-        var calculator = new BalanceCalculator(
+        var calculator = new ComputedBalanceProvider(
                 new InMemoryExpensesRepository(),
                 new InMemoryFriendsRepository()
         );
@@ -36,7 +36,7 @@ class BalanceCalculatorTest {
         var friendA = new Friend(UUID.randomUUID(), "A");
         var friendB = new Friend(UUID.randomUUID(), "B");
 
-        var calculator = new BalanceCalculator(
+        var calculator = new ComputedBalanceProvider(
                 new InMemoryExpensesRepository(),
                 new InMemoryFriendsRepository(List.of(friendA, friendB))
         );
@@ -55,7 +55,7 @@ class BalanceCalculatorTest {
         var friendB = new Friend(UUID.randomUUID(), "B");
         var friendC = new Friend(UUID.randomUUID(), "C");
 
-        var calculator = new BalanceCalculator(
+        var calculator = new ComputedBalanceProvider(
                 new InMemoryExpensesRepository(
                         List.of(
                                 new Expense(
@@ -87,7 +87,7 @@ class BalanceCalculatorTest {
         var raul = new Friend(UUID.randomUUID(), "Raúl González");
         var jose = new Friend(UUID.randomUUID(), "José María Gutiérrez");
 
-        var calculator = new BalanceCalculator(
+        var calculator = new ComputedBalanceProvider(
                 new InMemoryExpensesRepository(
                         List.of(
                                 new Expense(
@@ -130,7 +130,7 @@ class BalanceCalculatorTest {
         var friendA = new Friend(UUID.randomUUID(), "A");
         var friendB = new Friend(UUID.randomUUID(), "B");
 
-        var calculator = new BalanceCalculator(
+        var calculator = new ComputedBalanceProvider(
                 new InMemoryExpensesRepository(
                         List.of(
                                 new Expense(
@@ -160,7 +160,7 @@ class BalanceCalculatorTest {
         var friendB = new Friend(UUID.randomUUID(), "B");
         var friendC = new Friend(UUID.randomUUID(), "C");
 
-        var calculator = new BalanceCalculator(
+        var calculator = new ComputedBalanceProvider(
                 new InMemoryExpensesRepository(
                         List.of(
                                 new Expense(
