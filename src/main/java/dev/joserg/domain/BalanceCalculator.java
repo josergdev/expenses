@@ -20,19 +20,12 @@ public class BalanceCalculator {
 
         var balanceMap = new HashMap<Friend, Amount>();
 
-        friends.forEach(friend -> balanceMap.put(friend, new Amount(0)));
+        friends.forEach(friend -> balanceMap.put(friend, new Amount()));
 
         notes.forEach(
                 note -> {
-                    var creditorAmount = balanceMap.getOrDefault(note.creditor(), new Amount(0));
-                    balanceMap.replace(note.creditor(), creditorAmount.sum(note.amount()));
-                }
-        );
-
-        notes.forEach(
-                note -> {
-                    var debtorAmount = balanceMap.getOrDefault(note.debtor(), new Amount(0));
-                    balanceMap.replace(note.debtor(), debtorAmount.diff(note.amount()));
+                    balanceMap.computeIfPresent(note.creditor(), (creditor, creditorAmount) ->  creditorAmount.sum(note.amount()));
+                    balanceMap.computeIfPresent(note.debtor(), (debtor, debtorAmount) ->  debtorAmount.diff(note.amount()));
                 }
         );
 
@@ -53,5 +46,4 @@ public class BalanceCalculator {
                         .map(debtor -> new AccountingNote(debtor, expense.payer(), expense.amount().divide(friends.size())))
                 ).collect(Collectors.toList());
     }
-
 }
