@@ -1,4 +1,4 @@
-package dev.joserg.domain;
+package dev.joserg.domain.friend;
 
 import java.util.Collection;
 

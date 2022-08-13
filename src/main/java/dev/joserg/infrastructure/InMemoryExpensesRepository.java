@@ -1,7 +1,7 @@
 package dev.joserg.infrastructure;
 
-import dev.joserg.domain.Expense;
-import dev.joserg.domain.ExpensesRepository;
+import dev.joserg.domain.expense.Expense;
+import dev.joserg.domain.expense.ExpensesRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,6 +1,5 @@
-package dev.joserg.domain;
+package dev.joserg.domain.balance;
 
 import java.util.List;
 
-record BalanceItem(Friend friend, Amount amount) {}
 public record Balance(List<BalanceItem> balanceItem) {}

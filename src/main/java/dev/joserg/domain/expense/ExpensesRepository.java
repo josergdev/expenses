@@ -1,4 +1,4 @@
-package dev.joserg.domain;
+package dev.joserg.domain.expense;
 
 import java.util.List;
 

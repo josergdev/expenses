@@ -1,6 +1,8 @@
-package dev.joserg.domain;
+package dev.joserg.domain.expense;
+
+import dev.joserg.domain.friend.Friend;
+import dev.joserg.domain.accounting.Amount;
 
 import java.time.LocalDateTime;
 
-record Description(String value) { }
 public record Expense(Friend payer, Amount amount, Description description, LocalDateTime payDate) { }

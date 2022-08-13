@@ -1,7 +1,7 @@
 package dev.joserg.infrastructure;
 
-import dev.joserg.domain.Friend;
-import dev.joserg.domain.FriendsRepository;
+import dev.joserg.domain.friend.Friend;
+import dev.joserg.domain.friend.FriendsRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,5 +1,12 @@
 package dev.joserg.domain;
 
+import dev.joserg.domain.accounting.Amount;
+import dev.joserg.domain.balance.Balance;
+import dev.joserg.domain.balance.BalanceCalculator;
+import dev.joserg.domain.balance.BalanceItem;
+import dev.joserg.domain.expense.Description;
+import dev.joserg.domain.expense.Expense;
+import dev.joserg.domain.friend.Friend;
 import dev.joserg.infrastructure.InMemoryExpensesRepository;
 import dev.joserg.infrastructure.InMemoryFriendsRepository;
 import org.junit.jupiter.api.Test;

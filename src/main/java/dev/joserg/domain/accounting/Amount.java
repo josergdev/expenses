@@ -1,20 +1,20 @@
-package dev.joserg.domain;
+package dev.joserg.domain.accounting;
 
-record Amount(Integer value) {
+public record Amount(Integer value) {
 
     public Amount() {
         this(0);
     }
 
-    Amount divide(Integer divisor) {
+    public Amount divide(Integer divisor) {
         return new Amount(value() / divisor);
     }
 
-    Amount sum(Amount amount) {
+    public Amount sum(Amount amount) {
         return new Amount(value() + amount.value());
     }
 
-    Amount diff(Amount amount) {
+    public Amount diff(Amount amount) {
         return new Amount(value() - amount.value());
     }
 }
