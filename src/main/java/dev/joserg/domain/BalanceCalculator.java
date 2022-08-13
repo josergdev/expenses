@@ -22,17 +22,19 @@ public class BalanceCalculator {
 
         friends.forEach(friend -> balanceMap.put(friend, new Amount(0)));
 
-        expenses.forEach(
-                expense -> {
-                    var payerAmount = balanceMap.getOrDefault(expense.payer(), new Amount(0));
-                    balanceMap.replace(expense.payer(), sumAmounts(payerAmount, expense.amount()));
+        notes.forEach(
+                note -> {
+                    var creditorAmount = balanceMap.getOrDefault(note.creditor(), new Amount(0));
+                    balanceMap.replace(note.creditor(), sumAmounts(creditorAmount, note.amount()));
                 }
         );
 
-        notes.forEach(note -> {
-            var debtorAmount = balanceMap.getOrDefault(note.debtor(), new Amount(0));
-            balanceMap.replace(note.debtor(), diffAmounts(debtorAmount, note.amount()));
-        });
+        notes.forEach(
+                note -> {
+                    var debtorAmount = balanceMap.getOrDefault(note.debtor(), new Amount(0));
+                    balanceMap.replace(note.debtor(), diffAmounts(debtorAmount, note.amount()));
+                }
+        );
 
         var balanceItems = balanceMap.entrySet().stream()
                 .map(entry -> new BalanceItem(entry.getKey(), entry.getValue()))
@@ -48,8 +50,12 @@ public class BalanceCalculator {
     private List<AccountingNote> accountingNotesFromExpenses(List<Expense> expenses, Collection<Friend> friends) {
         return expenses.stream()
                 .flatMap(expense -> friends.stream()
-                                .map(debtor -> new AccountingNote(debtor, expense.payer(), new Amount(expense.amount().value() / friends.size()))))
-                .collect(Collectors.toList());
+                        .map(debtor -> new AccountingNote(debtor, expense.payer(), divideAmount(expense.amount(), friends.size())))
+                ).collect(Collectors.toList());
+    }
+
+    private Amount divideAmount(Amount dividend, Integer divisor) {
+        return new Amount(dividend.value() / divisor);
     }
 
     private Amount sumAmounts(Amount a, Amount b) {

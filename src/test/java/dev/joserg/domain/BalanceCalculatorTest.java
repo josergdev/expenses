@@ -119,7 +119,7 @@ class BalanceCalculatorTest {
     }
 
     @Test
-    void itShouldCalculateBalanceAndPayerShouldPayTheRemainder() {
+    void itShouldBeZeroForAllFriendsWhenExpensesAreLessThanFriends() {
         var friendA = new Friend(UUID.randomUUID(), "A");
         var friendB = new Friend(UUID.randomUUID(), "B");
 
@@ -140,8 +140,39 @@ class BalanceCalculatorTest {
         );
 
         var expectedBalance = new Balance(List.of(
-                new BalanceItem(friendA, new Amount(1)),
+                new BalanceItem(friendA, new Amount(0)),
                 new BalanceItem(friendB, new Amount(0))
+        ));
+
+        assertEquals(expectedBalance, calculator.balance());
+    }
+
+    @Test
+    void itShouldChargeTheRemainderToThePayer() {
+        var friendA = new Friend(UUID.randomUUID(), "A");
+        var friendB = new Friend(UUID.randomUUID(), "B");
+        var friendC = new Friend(UUID.randomUUID(), "C");
+
+        var calculator = new BalanceCalculator(
+                new InMemoryExpensesRepository(
+                        List.of(
+                                new Expense(
+                                        friendA,
+                                        new Amount(3),
+                                        new Description("d"),
+                                        LocalDateTime.of(2022, 8, 12, 17, 0)
+                                )
+                        )
+                ),
+                new InMemoryFriendsRepository(
+                        List.of(friendA, friendB, friendC)
+                )
+        );
+
+        var expectedBalance = new Balance(List.of(
+                new BalanceItem(friendA, new Amount(2)),
+                new BalanceItem(friendB, new Amount(-1)),
+                new BalanceItem(friendC, new Amount(-1))
         ));
 
         assertEquals(expectedBalance, calculator.balance());
