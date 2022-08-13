@@ -1,15 +1,17 @@
-package dev.joserg.infrastructure;
+package dev.joserg.infrastructure.repository;
 
 import dev.joserg.domain.friend.Friend;
 import dev.joserg.domain.friend.FriendsRepository;
+import jakarta.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+@Singleton
 public class InMemoryFriendsRepository implements FriendsRepository {
 
-    private Collection<Friend> friends;
+    private final Collection<Friend> friends;
 
     public InMemoryFriendsRepository() {
         friends = new ArrayList<>();
@@ -25,7 +27,8 @@ public class InMemoryFriendsRepository implements FriendsRepository {
     }
 
     @Override
-    public void add(Friend friend) {
+    public Friend add(Friend friend) {
         friends.add(friend);
+        return friend;
     }
 }

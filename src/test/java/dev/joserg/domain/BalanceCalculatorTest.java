@@ -7,8 +7,8 @@ import dev.joserg.domain.balance.BalanceItem;
 import dev.joserg.domain.expense.Description;
 import dev.joserg.domain.expense.Expense;
 import dev.joserg.domain.friend.Friend;
-import dev.joserg.infrastructure.InMemoryExpensesRepository;
-import dev.joserg.infrastructure.InMemoryFriendsRepository;
+import dev.joserg.infrastructure.repository.InMemoryExpensesRepository;
+import dev.joserg.infrastructure.repository.InMemoryFriendsRepository;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
