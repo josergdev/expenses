@@ -10,7 +10,6 @@ import dev.joserg.domain.accounting.Note;
 import dev.joserg.domain.accounting.Relation;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ComputedBalanceProvider implements BalanceProvider {
     private final ExpensesRepository expensesRepository;
@@ -40,7 +39,7 @@ public class ComputedBalanceProvider implements BalanceProvider {
                                                 expense.amount().divide(friends.size())
                                         )
                                 )
-                        ).collect(Collectors.toList())
+                        ).toList()
         );
     }
 
@@ -61,7 +60,7 @@ public class ComputedBalanceProvider implements BalanceProvider {
                 .sorted(
                         Comparator.comparing((BalanceItem balanceItem) -> balanceItem.amount().value()).reversed()
                                 .thenComparing((BalanceItem balanceItem) -> balanceItem.friend().name())
-                ).collect(Collectors.toList());
+                ).toList();
 
         return new Balance(balanceItems);
     }
