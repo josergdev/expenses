@@ -4,12 +4,12 @@ import dev.joserg.application.friend.FriendsService;
 import dev.joserg.application.friend.data.FriendData;
 import dev.joserg.application.friend.data.FriendsData;
 import dev.joserg.application.friend.data.NewFriendData;
-import dev.joserg.domain.friend.Friend;
-import dev.joserg.domain.friend.FriendsRepository;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import jakarta.inject.Inject;
+
+import javax.validation.Valid;
 
 @Controller
 public class FriendsController {
@@ -18,7 +18,7 @@ public class FriendsController {
     private FriendsService friendsService;
 
     @Post("/friends")
-    public FriendData create(NewFriendData newFriend) {
+    public FriendData create(@Valid NewFriendData newFriend) {
         return friendsService.create(newFriend);
     }
 
