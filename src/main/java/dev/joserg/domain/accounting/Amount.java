@@ -7,6 +7,9 @@ public record Amount(Integer value) implements Comparable<Amount> {
     public Amount() {
         this(0);
     }
+    public static Amount zero() {
+        return new Amount();
+    }
 
     public static Amount negate(Amount amount) {
         return new Amount(- amount.value());
