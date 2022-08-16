@@ -8,9 +8,11 @@ import dev.joserg.domain.accounting.Amount;
 import dev.joserg.domain.accounting.Book;
 import dev.joserg.domain.accounting.Note;
 import dev.joserg.domain.accounting.Relation;
+import jakarta.inject.Singleton;
 
 import java.util.*;
 
+@Singleton
 public class ComputedBalanceProvider implements BalanceProvider {
     private final ExpensesRepository expensesRepository;
     private final FriendsRepository friendsRepository;

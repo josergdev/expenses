@@ -2,9 +2,7 @@ package dev.joserg.application.balance;
 
 import dev.joserg.application.balance.data.BalanceData;
 import dev.joserg.application.balance.data.BalanceItemData;
-import dev.joserg.domain.balance.ComputedBalanceProvider;
-import dev.joserg.domain.expense.ExpensesRepository;
-import dev.joserg.domain.friend.FriendsRepository;
+import dev.joserg.domain.balance.BalanceProvider;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -12,13 +10,9 @@ import jakarta.inject.Singleton;
 public class BalanceService {
 
     @Inject
-    private ExpensesRepository expensesRepository;
-    @Inject
-    private FriendsRepository friendsRepository;
+    private BalanceProvider balanceProvider;
 
     public BalanceData balance() {
-        var balanceProvider = new ComputedBalanceProvider(expensesRepository, friendsRepository);
-
         var balance = balanceProvider.balance();
 
         return new BalanceData(
