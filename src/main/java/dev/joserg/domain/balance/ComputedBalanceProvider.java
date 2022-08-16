@@ -22,6 +22,7 @@ public class ComputedBalanceProvider implements BalanceProvider {
         this.friendsRepository = friendsRepository;
     }
 
+    @Override
     public Balance balance() {
         var expenses = expensesRepository.all();
         var friends = friendsRepository.all();
