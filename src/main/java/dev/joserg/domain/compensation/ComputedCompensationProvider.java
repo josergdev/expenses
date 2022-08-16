@@ -43,16 +43,16 @@ public class ComputedCompensationProvider implements CompensationProvider {
             creditors.remove(greaterCreditor);
             debtors.remove(greaterDebtor);
 
-            var diffAmount = greaterCreditor.amount().value() + greaterDebtor.amount().value();
-            if (diffAmount == 0 ) {
+            var diffAmount = greaterCreditor.amount().sum(greaterDebtor.amount());
+            if (diffAmount.value() == 0 ) {
                 compensationItems.add(new CompensationItem(new Relation(greaterDebtor.friend(), greaterCreditor.friend()), greaterCreditor.amount()));
-            } else if(diffAmount > 0) {
-                compensationItems.add(new CompensationItem(new Relation(greaterDebtor.friend(), greaterCreditor.friend()), new Amount(- greaterDebtor.amount().value())));
-                creditors.add(new BalanceItem(greaterCreditor.friend(), new Amount(diffAmount)));
+            } else if(diffAmount.value() > 0) {
+                compensationItems.add(new CompensationItem(new Relation(greaterDebtor.friend(), greaterCreditor.friend()), Amount.negate(greaterDebtor.amount())));
+                creditors.add(new BalanceItem(greaterCreditor.friend(),diffAmount));
                 creditors.sort(Comparator.comparing((BalanceItem balanceItem) -> balanceItem.amount().value()).reversed());
             } else {
                 compensationItems.add(new CompensationItem(new Relation(greaterDebtor.friend(), greaterCreditor.friend()), greaterCreditor.amount()));
-                debtors.add(new BalanceItem(greaterDebtor.friend(), new Amount(diffAmount)));
+                debtors.add(new BalanceItem(greaterDebtor.friend(), diffAmount));
                 debtors.sort(Comparator.comparing((BalanceItem balanceItem) -> balanceItem.amount().value()).reversed());
             }
         }

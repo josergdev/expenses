@@ -6,6 +6,10 @@ public record Amount(Integer value) {
         this(0);
     }
 
+    public static Amount negate(Amount amount) {
+        return new Amount(- amount.value());
+    }
+
     public Amount divide(Integer divisor) {
         return new Amount(value() / divisor);
     }
