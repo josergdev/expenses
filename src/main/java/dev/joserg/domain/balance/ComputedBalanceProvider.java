@@ -49,7 +49,7 @@ public class ComputedBalanceProvider implements BalanceProvider {
     private Balance balanceFromAccountingBookAndFriends(Book accountingBook, Collection<Friend> friends) {
         var balanceMap = new HashMap<Friend, Amount>();
 
-        friends.forEach(friend -> balanceMap.put(friend, new Amount()));
+        friends.forEach(friend -> balanceMap.put(friend, Amount.zero()));
 
         accountingBook.accountingNotes().forEach(
                 note -> {
@@ -61,7 +61,7 @@ public class ComputedBalanceProvider implements BalanceProvider {
         var balanceItems = balanceMap.entrySet().stream()
                 .map(entry -> new BalanceItem(entry.getKey(), entry.getValue()))
                 .sorted(
-                        Comparator.comparing((BalanceItem balanceItem) -> balanceItem.amount().value()).reversed()
+                        Comparator.comparing(BalanceItem::amount).reversed()
                                 .thenComparing((BalanceItem balanceItem) -> balanceItem.friend().name())
                 ).toList();
 
