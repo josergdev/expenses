@@ -15,7 +15,6 @@ import java.util.UUID;
 import static org.jooq.impl.DSL.field;
 import static org.jooq.impl.DSL.table;
 
-@Primary
 @Singleton
 @Transactional
 public class MySqlFriendsRepository implements FriendsRepository {
