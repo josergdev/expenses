@@ -44,9 +44,9 @@ public class ComputedCompensationProvider implements CompensationProvider {
             debtors.remove(greaterDebtor);
 
             var diffAmount = greaterCreditor.amount().sum(greaterDebtor.amount());
-            if (diffAmount.value() == 0 ) {
+            if (diffAmount.equals(new Amount()) ) {
                 compensationItems.add(new CompensationItem(new Relation(greaterDebtor.friend(), greaterCreditor.friend()), greaterCreditor.amount()));
-            } else if(diffAmount.value() > 0) {
+            } else if(diffAmount.compareTo(new Amount()) > 0) {
                 compensationItems.add(new CompensationItem(new Relation(greaterDebtor.friend(), greaterCreditor.friend()), Amount.negate(greaterDebtor.amount())));
                 creditors.add(new BalanceItem(greaterCreditor.friend(),diffAmount));
                 creditors.sort(Comparator.comparing((BalanceItem balanceItem) -> balanceItem.amount().value()).reversed());

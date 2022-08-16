@@ -1,6 +1,8 @@
 package dev.joserg.domain.accounting;
 
-public record Amount(Integer value) {
+import java.util.Comparator;
+
+public record Amount(Integer value) implements Comparable<Amount> {
 
     public Amount() {
         this(0);
@@ -20,5 +22,10 @@ public record Amount(Integer value) {
 
     public Amount diff(Amount amount) {
         return new Amount(value() - amount.value());
+    }
+
+    @Override
+    public int compareTo(Amount comparedAmount) {
+        return Comparator.comparing(Amount::value).compare(this, comparedAmount);
     }
 }
