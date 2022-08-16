@@ -1,9 +1,6 @@
-package dev.joserg.domain;
+package dev.joserg.domain.balance;
 
 import dev.joserg.domain.accounting.Amount;
-import dev.joserg.domain.balance.Balance;
-import dev.joserg.domain.balance.ComputedBalanceProvider;
-import dev.joserg.domain.balance.BalanceItem;
 import dev.joserg.domain.expense.Description;
 import dev.joserg.domain.expense.Expense;
 import dev.joserg.domain.friend.Friend;
@@ -17,7 +14,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BalanceCalculatorTest {
+class ComputedBalanceProviderTest {
 
     @Test
     void itShouldBeEmptyBalanceIfZeroFriends() {

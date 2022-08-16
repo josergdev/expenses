@@ -1,4 +1,4 @@
-package dev.joserg.infrastructure.controller.exceptionHandler;
+package dev.joserg.infrastructure.controller.exceptionhandler;
 
 import dev.joserg.application.friend.exception.FriendNotFoundException;
 import io.micronaut.http.HttpRequest;
