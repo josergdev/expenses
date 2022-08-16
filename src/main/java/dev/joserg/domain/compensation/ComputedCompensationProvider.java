@@ -11,7 +11,7 @@ import java.util.*;
 @Singleton
 public class ComputedCompensationProvider implements CompensationProvider {
 
-    private BalanceProvider balanceProvider;
+    private final BalanceProvider balanceProvider;
 
     public ComputedCompensationProvider(BalanceProvider balanceProvider) {
         this.balanceProvider = balanceProvider;
