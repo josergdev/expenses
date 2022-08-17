@@ -11,6 +11,7 @@ services:
       JDBC_URL: jdbc:mysql://mysql:3306/expenses
       JDBC_USER: root
       JDBC_PASSWORD: password
+    restart: unless-stopped
     depends_on:
       - mysql
 
