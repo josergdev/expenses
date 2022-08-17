@@ -6,7 +6,11 @@ services:
     build: .
     ports:
       - "8080:8080"
-    restart: unless-stopped
+    environment:
+      JDBC_DRIVER: com.mysql.cj.jdbc.Driver
+      JDBC_URL: jdbc:mysql://mysql:3306/expenses
+      JDBC_USER: root
+      JDBC_PASSWORD: password
     depends_on:
       - mysql
 
