@@ -1,17 +1,18 @@
 package dev.joserg.infrastructure.repository.jpa;
 
+import dev.joserg.domain.friend.Friend;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 @Entity
 @Table(name = "friend")
 public class FriendEntity {
     @Id
-    private UUID id;
+    private String id;
 
     @NotNull
     @Column(name = "name", nullable = false)
@@ -20,16 +21,20 @@ public class FriendEntity {
     public FriendEntity() {
     }
 
-    public FriendEntity(UUID id, String name) {
+    public FriendEntity(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public UUID id() {
+    public FriendEntity(Friend friend) {
+        this(friend.id().toString(), friend.name());
+    }
+
+    public String getId() {
         return id;
     }
 
-    public String name() {
+    public String getName() {
         return name;
     }
 }

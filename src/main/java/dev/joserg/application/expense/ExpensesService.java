@@ -13,6 +13,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 @Singleton
@@ -32,7 +33,7 @@ public class ExpensesService {
                         payer,
                         new Amount(newExpenseData.amount()),
                         new Description(newExpenseData.description()),
-                        LocalDateTime.now()
+                        LocalDateTime.now(ZoneOffset.UTC)
                 )
         );
 

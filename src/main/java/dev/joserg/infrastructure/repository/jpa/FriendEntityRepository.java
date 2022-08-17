@@ -3,7 +3,6 @@ package dev.joserg.infrastructure.repository.jpa;
 import dev.joserg.domain.friend.Friend;
 import dev.joserg.domain.friend.FriendsRepository;
 import io.micronaut.context.annotation.Primary;
-import jakarta.inject.Singleton;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -12,35 +11,34 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Primary
-@Singleton
 @Transactional
-public class FriendsEntityRepository implements FriendsRepository {
+public class FriendEntityRepository implements FriendsRepository {
 
     private final EntityManager entityManager;
 
-    public FriendsEntityRepository(EntityManager entityManager) {
+    public FriendEntityRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
     public Collection<Friend> all() {
         return entityManager.createQuery(
-                        "SELECT f FROM FriendEntity as f",
+                        "select fe from FriendEntity as fe",
                         FriendEntity.class
                 ).getResultStream()
-                .map(fe -> new Friend(fe.id(), fe.name()))
+                .map(fe -> new Friend(UUID.fromString(fe.getId()), fe.getName()))
                 .toList();
     }
 
     @Override
     public Friend add(Friend friend) {
-        entityManager.persist(new FriendEntity(friend.id(), friend.name()));
+        entityManager.persist(new FriendEntity(friend));
         return friend;
     }
 
     @Override
     public Optional<Friend> find(UUID friendId) {
-        return Optional.ofNullable(entityManager.find(FriendEntity.class, friendId))
-                .map(fe -> new Friend(fe.id(), fe.name()));
+        return Optional.ofNullable(entityManager.find(FriendEntity.class, friendId.toString()))
+                .map(fe -> new Friend(UUID.fromString(fe.getId()), fe.getName()));
     }
 }
