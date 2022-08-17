@@ -3,8 +3,7 @@ package dev.joserg.infrastructure.repository.jpa;
 import dev.joserg.domain.expense.Expense;
 
 import javax.persistence.*;
-import java.time.Instant;
-import java.time.ZoneOffset;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "expense")
@@ -26,12 +25,12 @@ public class ExpenseEntity {
     private String description;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
     public ExpenseEntity() {
     }
 
-    public ExpenseEntity(FriendEntity friendEntity, Long amount, String description, Instant createdAt) {
+    public ExpenseEntity(FriendEntity friendEntity, Long amount, String description, LocalDateTime createdAt) {
         this.friendEntity = friendEntity;
         this.amount = amount;
         this.description = description;
@@ -43,7 +42,7 @@ public class ExpenseEntity {
                 new FriendEntity(expense.payer()),
                 expense.amount().value().longValue(),
                 expense.description().value(),
-                expense.payDate().atOffset(ZoneOffset.UTC).toInstant()
+                expense.payDate()
         );
     }
 
@@ -63,7 +62,7 @@ public class ExpenseEntity {
         return description;
     }
 
-    public Instant getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 }

@@ -41,7 +41,7 @@ public class ExpensesService {
                 createdExpense.payer().id(),
                 createdExpense.amount().value(),
                 createdExpense.description().value(),
-                createdExpense.payDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                DateTimeFormatter.ISO_INSTANT.format(createdExpense.payDate().toInstant(ZoneOffset.UTC))
         );
     }
 
@@ -52,7 +52,7 @@ public class ExpensesService {
                                         expense.payer().id(),
                                         expense.amount().value(),
                                         expense.description().value(),
-                                        expense.payDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                                        DateTimeFormatter.ISO_INSTANT.format(expense.payDate().toInstant(ZoneOffset.UTC))
                                 )
                         ).toList()
         );

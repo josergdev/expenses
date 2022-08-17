@@ -9,8 +9,6 @@ import io.micronaut.context.annotation.Primary;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +31,7 @@ public class ExpenseEntityRepository implements ExpensesRepository {
                                 new Friend(UUID.fromString(ee.getFriendEntity().getId()), ee.getFriendEntity().getName()),
                                 new Amount(ee.getAmount().intValue()),
                                 new Description(ee.getDescription()),
-                                LocalDateTime.ofInstant(ee.getCreatedAt(), ZoneOffset.UTC)
+                                ee.getCreatedAt()
                         )
                 ).toList();
     }
