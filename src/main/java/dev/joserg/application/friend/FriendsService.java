@@ -9,6 +9,10 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 @Singleton
 public class FriendsService {
@@ -22,10 +26,9 @@ public class FriendsService {
     }
 
     public FriendsData list() {
-        return new FriendsData(
-                friendsRepository.all().stream()
-                        .map(friend -> new FriendData(friend.id(), friend.name()))
-                        .toList()
-        );
+        return friendsRepository
+                .all().stream()
+                .map(friend -> new FriendData(friend.id(), friend.name()))
+                .collect(collectingAndThen(toList(), FriendsData::new));
     }
 }

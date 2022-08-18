@@ -16,6 +16,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 @Singleton
 public class ExpensesService {
@@ -47,16 +51,16 @@ public class ExpensesService {
     }
 
     public ExpensesData list() {
-        return new ExpensesData(
-                expensesRepository.all().stream()
-                        .map(expense -> new ExpenseData(
-                                        expense.payer().id(),
-                                        expense.amount().value(),
-                                        expense.description().value(),
-                                        DateTimeFormatter.ISO_INSTANT.format(expense.payDate().toInstant(ZoneOffset.UTC))
-                                )
-                        ).sorted(Comparator.comparing(ExpenseData::dateTime).reversed())
-                        .toList()
-        );
+        return expensesRepository
+                .all().stream()
+                .map(expense ->
+                        new ExpenseData(
+                                expense.payer().id(),
+                                expense.amount().value(),
+                                expense.description().value(),
+                                DateTimeFormatter.ISO_INSTANT.format(expense.payDate().toInstant(ZoneOffset.UTC))
+                        )
+                ).sorted(Comparator.comparing(ExpenseData::dateTime).reversed())
+                .collect(collectingAndThen(toList(), ExpensesData::new));
     }
 }
