@@ -15,6 +15,7 @@ import jakarta.inject.Singleton;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 
 @Singleton
 public class ExpensesService {
@@ -54,7 +55,8 @@ public class ExpensesService {
                                         expense.description().value(),
                                         DateTimeFormatter.ISO_INSTANT.format(expense.payDate().toInstant(ZoneOffset.UTC))
                                 )
-                        ).toList()
+                        ).sorted(Comparator.comparing(ExpenseData::dateTime).reversed())
+                        .toList()
         );
     }
 }
