@@ -89,19 +89,19 @@ class ComputedBalanceProviderTest {
                         List.of(
                                 new Expense(
                                         francisco,
-                                        new Amount(10_000),
+                                        new Amount(100_00),
                                         new Description("Cena"),
                                         LocalDateTime.of(2022, 8, 12, 17, 0)
                                 ),
                                 new Expense(
                                         alfonso,
-                                        new Amount(1_000),
+                                        new Amount(10_00),
                                         new Description("Taxi"),
                                         LocalDateTime.of(2022, 8, 12, 18, 0)
                                 ),
                                 new Expense(
                                         alfonso,
-                                        new Amount(5_340),
+                                        new Amount(53_40),
                                         new Description("Compra"),
                                         LocalDateTime.of(2022, 8, 12, 19, 0)
                                 )
@@ -113,10 +113,10 @@ class ComputedBalanceProviderTest {
         );
 
         var expectedBalance = new Balance(List.of(
-                new BalanceItem(francisco, new Amount(5_915)),
-                new BalanceItem(alfonso, new Amount(2_255)),
-                new BalanceItem(jose, new Amount(-4_085)),
-                new BalanceItem(raul, new Amount(-4_085))
+                new BalanceItem(francisco, new Amount(59_15)),
+                new BalanceItem(alfonso, new Amount(22_55)),
+                new BalanceItem(jose, new Amount(-40_85)),
+                new BalanceItem(raul, new Amount(-40_85))
         ));
 
         assertEquals(expectedBalance, calculator.balance());
