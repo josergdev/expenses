@@ -9,6 +9,7 @@ import dev.joserg.domain.expense.Description;
 import dev.joserg.domain.expense.Expense;
 import dev.joserg.domain.expense.ExpensesRepository;
 import dev.joserg.domain.friend.FriendsRepository;
+import dev.joserg.domain.shared.clock.Clock;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -16,7 +17,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -28,6 +28,8 @@ public class ExpensesService {
     private ExpensesRepository expensesRepository;
     @Inject
     private FriendsRepository friendsRepository;
+    @Inject
+    private Clock clock;
 
     public ExpenseData create(NewExpenseData newExpenseData) throws FriendNotFoundException {
         var payer = friendsRepository.find(newExpenseData.payerId())
@@ -38,7 +40,7 @@ public class ExpensesService {
                         payer,
                         new Amount(newExpenseData.amount()),
                         new Description(newExpenseData.description()),
-                        LocalDateTime.now(ZoneOffset.UTC)
+                        clock.now()
                 )
         );
 
