@@ -11,7 +11,9 @@ services:
       JDBC_URL: jdbc:mysql://mysql:3306/expenses
       JDBC_USER: root
       JDBC_PASSWORD: password
-    restart: unless-stopped
+    command: >
+      sh -c "wget -qO- https://raw.githubusercontent.com/eficode/wait-for/master/wait-for | sh -s -- mysql:3306 -t 30 &&
+             java -jar /usr/local/lib/expenses-0.1.jar"
     depends_on:
       - mysql
 
