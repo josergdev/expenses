@@ -1,13 +1,12 @@
 FROM maven:3.6.3-openjdk-17-slim AS build
 
+ARG MVN=''
 ENV HOME=/usr/app
 RUN mkdir -p $HOME
 WORKDIR $HOME
-ADD pom.xml $HOME
-RUN mvn -f $HOME/pom.xml verify --fail-never
 
-COPY src $HOME/src
-RUN mvn -f $HOME/pom.xml clean package
+ADD . $HOME
+RUN --mount=type=cache,target=/root/.m2 mvn -f $HOME/pom.xml clean package $MVN
 
 FROM eclipse-temurin:17-jre-alpine
 COPY --from=build "/usr/app/target/expenses-0.1.jar" "/usr/local/lib/expenses-0.1.jar"
